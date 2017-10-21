@@ -18,4 +18,5 @@ from historical_records import views as historical_records_views
 
 urlpatterns = [
     url(r'^$', historical_records_views.home_page, name='home'),
+    url(r'^([A-Za-z0-9]+)$', historical_records_views.user_articles, name='user_articles')
 ]
