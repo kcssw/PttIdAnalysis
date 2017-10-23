@@ -1,0 +1,7 @@
+1. Is it OK to hard code "article type" in home.html?
+2. Don't know why 'CQLENG_ALLOW_SCHEMA_MANAGEMENT' is passed to env during subprocess.py
+	* Wrokaround: del 'CQLENG_ALLOW_SCHEMA_MANAGEMENT'
+3. There are still some issues when integrating Cassandra into Django
+	1. Cannot fully support functional test: DB Stub created by Django cannot be used by view.py
+	2. Multiple primary keys are not supported. Need to use 'index'
+	=> Need to apply different DB solution

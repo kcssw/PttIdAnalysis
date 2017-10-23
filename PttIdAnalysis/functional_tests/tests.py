@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-
 from django.test import LiveServerTestCase
 from selenium import webdriver
 from selenium.common.exceptions import WebDriverException
@@ -9,7 +8,7 @@ from datetime import datetime
 import time
 import uuid
 
-from historical_records.models import  Article
+from historical_records.models import Article
 
 MAX_WAIT = 10
 
@@ -19,18 +18,28 @@ class HistoricalRecordsTest(LiveServerTestCase):
         self.browser = webdriver.Chrome('chromedriver.exe')
 
         postedArticle1 = Article()
+        postedArticle1.id = uuid.uuid4()
         postedArticle1.title = 'Re: [問卦] 有沒有醫學系要兼修心理學的八卦'
         postedArticle1.timestamp = datetime(2017, 1, 10, 13, 43, 18, 0)
         postedArticle1.author = 'obov'
+        postedArticle1.save()
         postedArticle2 = Article()
+        postedArticle2.id = uuid.uuid4()
         postedArticle2.title = 'Re: [問卦] obov隱退了嗎'
         postedArticle2.timestamp = datetime(2016, 12, 26, 16, 59, 10, 0)
         postedArticle2.author = 'obov'
+        postedArticle2.save()
         postedArticle3 = Article()
+        postedArticle3.id = uuid.uuid4()
         postedArticle3.title = '[測試] 你還在寫計網作業嗎？'
         postedArticle3.timestamp = datetime(2016, 12, 03, 23, 35, 51, 0)
         postedArticle3.author = 'obov'
+        postedArticle3.save()
         self.postedArticles = [postedArticle1, postedArticle2, postedArticle3]
+
+        saved_articles = Article.objects.all()
+        for article in saved_articles:
+            print article.title
 
         commentedArticle1 = Article()
         commentedArticle1.title = 'Re: [閒聊] 神劍把雪代緣的部份砍掉會更接近神作嗎?'
@@ -121,9 +130,11 @@ class HistoricalRecordsTest(LiveServerTestCase):
                 option.click()
 
         #  When he hits enter, the page updates, and now the page lists titles of 50 articles posted by obov
+        #  He notices that page title is updated to obov's page
         #  He clicks one interesting article and the page displays the article.
         inputbox.send_keys(Keys.ENTER)
         time.sleep(1)
+        self.assertIn('obov', self.browser.title)
         table = self.browser.find_element_by_id('id_article_table')
         rows = table.find_elements_by_tag_name('tr')
         for article in self.postedArticles:

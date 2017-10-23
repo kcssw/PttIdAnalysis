@@ -1,0 +1,14 @@
+<html>
+	<head>
+		<title>{{ author }}'s posts</title>
+	</head>
+	<body>
+		<h1>All Posted Articles by {{ author }}</h1>
+		<table id="id_article_table">
+			{% for article in articles %}
+				<tr><td>{{ forloop.counter }}: {{ article.title }}</td></tr>
+			{% endfor %}
+
+		</table>
+	</body>
+</html>

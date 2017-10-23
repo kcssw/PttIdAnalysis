@@ -18,5 +18,6 @@ from historical_records import views as historical_records_views
 
 urlpatterns = [
     url(r'^$', historical_records_views.home_page, name='home'),
-    url(r'^([A-Za-z0-9]+)$', historical_records_views.user_articles, name='user_articles')
+    url(r'^post_articles/([A-Za-z0-9]+)$', historical_records_views.user_articles, name='user_articles'),
+    url(r'^query_articles$', historical_records_views.query_articles, name='query_articles')
 ]
