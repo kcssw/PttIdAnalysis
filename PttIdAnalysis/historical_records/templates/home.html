@@ -6,12 +6,12 @@
 		<h1>Retrieve User Historical Articles</h1>
 		<form method="POST" action="/query_articles">
 			<input name="author_id" id="id_query_user" placeholder="Enter a user ID" />
+			<select name="article_type" id="id_query_article_type">
+				<option value="PostedArticles" selected="selected">Posted Articles</option>
+				<option value="CommentedArticles">Commented Articles</option>
+				<option value="PostedAndCommentedArticles">Posted Articles And Commented Articles</option>
+			</select>
 			{% csrf_token %}
 		</form>
-		<select name="article_type" id="id_query_article_type">
-			<option value="Posted Articles" selected="selected">Posted Articles</option>
-			<option value="Commented Articles">Commented Articles</option>
-			<option value="Posted Articles And Commented Articles">Posted Articles And Commented Articles</option>
-		</select>
 	</body>
 </html>

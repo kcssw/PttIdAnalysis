@@ -17,71 +17,6 @@ class HistoricalRecordsTest(LiveServerTestCase):
     def setUp(self):
         self.browser = webdriver.Chrome('chromedriver.exe')
 
-        postedArticle1 = Article()
-        postedArticle1.id = uuid.uuid4()
-        postedArticle1.title = 'Re: [問卦] 有沒有醫學系要兼修心理學的八卦'
-        postedArticle1.timestamp = datetime(2017, 1, 10, 13, 43, 18, 0)
-        postedArticle1.author = 'obov'
-        postedArticle1.save()
-        postedArticle2 = Article()
-        postedArticle2.id = uuid.uuid4()
-        postedArticle2.title = 'Re: [問卦] obov隱退了嗎'
-        postedArticle2.timestamp = datetime(2016, 12, 26, 16, 59, 10, 0)
-        postedArticle2.author = 'obov'
-        postedArticle2.save()
-        postedArticle3 = Article()
-        postedArticle3.id = uuid.uuid4()
-        postedArticle3.title = '[測試] 你還在寫計網作業嗎？'
-        postedArticle3.timestamp = datetime(2016, 12, 03, 23, 35, 51, 0)
-        postedArticle3.author = 'obov'
-        postedArticle3.save()
-        self.postedArticles = [postedArticle1, postedArticle2, postedArticle3]
-
-        saved_articles = Article.objects.all()
-        for article in saved_articles:
-            print article.title
-
-        commentedArticle1 = Article()
-        commentedArticle1.title = 'Re: [閒聊] 神劍把雪代緣的部份砍掉會更接近神作嗎?'
-        commentedArticle1.timestamp = datetime(2016, 12, 1, 15, 16, 22, 0)
-        commentedArticle1.author = 'abc'
-        commentedArticle2 = Article()
-        commentedArticle2.title = '[閒聊] 女孩兒喜歡刪推文刪全部嗎'
-        commentedArticle2.timestamp = datetime(2016, 11, 25, 1, 45, 13, 0)
-        commentedArticle2.author = 'def'
-        commentedArticle3 = Article()
-        commentedArticle3.title = 'Re: [心情]我覺得男版待不下去了'
-        commentedArticle3.timestamp = datetime(2016, 11, 22, 11, 13, 46, 0)
-        commentedArticle3.author = 'ghi'
-        self.commentedArticles = [commentedArticle1, commentedArticle2, commentedArticle3]
-
-        comment1 = Comment()
-        comment1.author = 'obov'
-        comment1.content = '123456'
-        comment2 = Comment()
-        comment2.author = 'obov'
-        comment2.content = '7891011'
-        comment3 = Comment()
-        comment3.author = 'abc'
-        comment3.content = '12131415'
-        comment4 = Comment()
-        comment4.author = 'obov'
-        comment4.content = '16171819'
-        comment5 = Comment()
-        comment5.author = 'def'
-        comment5.content = '20212223'
-        comment6 = Comment()
-        comment6.author = 'ghi'
-        comment6.content = '242526'
-
-        postedArticle1.comments = []
-        postedArticle2.comments = []
-        postedArticle3.comments = []
-
-        commentedArticle1.comments = [comment1]
-        commentedArticle2.comments = [comment2, comment3]
-        commentedArticle3.comments = [comment4, comment5, comment6]
-
     def tearDown(self):
         # Satisfied, she goes back to sleep
         self.browser.quit()
@@ -137,8 +72,9 @@ class HistoricalRecordsTest(LiveServerTestCase):
         self.assertIn('obov', self.browser.title)
         table = self.browser.find_element_by_id('id_article_table')
         rows = table.find_elements_by_tag_name('tr')
-        for article in self.postedArticles:
-            self.assertTrue(any(row.text == article.title for row in rows))
+        self.assertGreater(len(rows), 1)
+        self.assertLessEqual(len(rows), 50)
+        self.assertTrue(any(row.text == u'1: Re: [問卦] 有沒有醫學系要兼修心理學的八卦' for row in rows))
 
         #  He returns the page displays all posted articles again.
         #  He click 'Next' button and the page displays the next 50 articles.

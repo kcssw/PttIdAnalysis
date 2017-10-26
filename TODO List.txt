@@ -4,4 +4,5 @@
 3. There are still some issues when integrating Cassandra into Django
 	1. Cannot fully support functional test: DB Stub created by Django cannot be used by view.py
 	2. Multiple primary keys are not supported. Need to use 'index'
+	3. No paging support!
 	=> Need to apply different DB solution

@@ -13,10 +13,9 @@ def home_page(request):
 
 def user_articles(request, author_id):
     articles = Article.objects.filter(author=author_id)
-    for article in articles:
-        print 'test', article.title
     return render(request, 'user_articles.html', {'author' : author_id, 'articles': articles})
 
 def query_articles(request):
     author = request.POST.get('author_id', '')
-    return redirect('/post_articles/' + str(author))
+    type = request.POST.get('article_type', '')
+    return redirect('/' + str(type) + '/' + str(author))
